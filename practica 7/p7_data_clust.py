@@ -4,17 +4,13 @@ from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Cargar datos
 df = pd.read_csv("candySalesCleaned.csv")
 
-# Usamos solo columnas numéricas relevantes
 X = df[['sales', 'units', 'gross_profit', 'cost']]
 
-# Escalamos los datos para mejorar el rendimiento de KMeans
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-# Encontrar número óptimo de clusters con método del codo
 inertia = []
 k_range = range(1, 11)
 for k in k_range:
@@ -35,7 +31,7 @@ plt.show()
 kmeans = KMeans(n_clusters=3, random_state=0)
 df['cluster'] = kmeans.fit_predict(X_scaled)
 
-# Visualización de los clusters
+# ver clusters
 plt.figure(figsize=(8, 6))
 sns.scatterplot(data=df, x='sales', y='gross_profit', hue='cluster', palette='Set2')
 plt.title("Clusters de Ventas por Ganancia Bruta")
@@ -44,6 +40,5 @@ plt.ylabel("Ganancia bruta")
 plt.grid(True)
 plt.show()
 
-# Mostrar cuántos hay por cluster
 print("\nDistribución por cluster:")
 print(df['cluster'].value_counts())
